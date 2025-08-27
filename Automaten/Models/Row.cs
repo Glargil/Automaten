@@ -3,23 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Automaten.Models;
 
 namespace Automaten.Models
 {
-    class Row
+    public class Row
     {
-        private string _slot;
-        private int _price;
-        private Queue<Item> _currentItem;
+        private int _tempId = 0;
+        private int _slot;
+        private Queue<Item> _itemQueue;
 
-        public Row() 
-        
-        { }
+        public int Slot { get; set; }
+        public Queue<Item> ItemQueue { get; set; }
+
+        public Row()
+        {
+            _slot = _tempId++;
+            _itemQueue = new Queue<Item>();
+        }
+
+        public void AddItem(Item itemToAdd)
+        { 
+        _itemQueue.Enqueue(itemToAdd);
+            Console.WriteLine(itemToAdd.Name + " added to row " + _slot);
+        }
 
         public Item EjectItem()
         {
-            Item ejectedItem = _currentItem.Dequeue();
+            Item ejectedItem = _itemQueue.Dequeue();
             return ejectedItem;
+        }
+
+
+        public string ToString()
+        {
+            return "Row: " + _slot + " contains " + _itemQueue.Count + " items.";
         }
     }
 }

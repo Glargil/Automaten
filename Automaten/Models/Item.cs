@@ -10,14 +10,17 @@ namespace Automaten.Models
     {
         private string _name;
         private int _marketPrice;
+        private int _price;
 
         public string Name { get; set; }
         public int MarketPrice { get; set; }
+        public int Price { get; set; }
 
-        public Item(string name, int marketPrice)
+        public Item(string name, int marketPrice, int price)
         {
-            Name = name;
-            MarketPrice = marketPrice;
+            _name = name;
+            _marketPrice = marketPrice;
+            _price = price;
         }
     }
 }

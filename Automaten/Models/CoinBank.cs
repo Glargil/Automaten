@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Automaten.Models
 {
-    class CoinBank
+    public class CoinBank
     {
-
+        public CoinBank()
+        { }
     }
 }

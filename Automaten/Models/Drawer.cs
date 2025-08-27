@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Automaten.Models
 {
-    class Drawer
+    public class Drawer
     {
+        public Drawer()
+        { }
     }
 }
