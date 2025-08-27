@@ -44,9 +44,11 @@ namespace Automaten.Models
                 BankedCoins.Add(twentyKr);
             }
         }
+
+
+
         public void CoinBankReport()
         {
-            Console.WriteLine("CoinBank contains " + BankedCoins.Count + " coins.");
             //foreach (Coin coin in BankedCoins)
             //{
             //    Console.WriteLine ("CoinBank contains " + coin.Name + " coins.");
