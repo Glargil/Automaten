@@ -9,6 +9,11 @@ namespace Automaten.Models
     class VendingMachine
     {
         private int _id;
-        private 
+        private List<Row> _rows;
+        private Panel _panel;
+        private CoinBank _coinBank;
+        private Drawer _drawer;
+
+
     }
 }

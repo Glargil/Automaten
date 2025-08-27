@@ -8,5 +8,16 @@ namespace Automaten
 {
     class Item
     {
+        private string _name;
+        private int _marketPrice;
+
+        public string Name { get; set; }
+        public int MarketPrice { get; set; }
+
+        public Item(string name, int marketPrice)
+        {
+            Name = name;
+            MarketPrice = marketPrice;
+        }
     }
 }

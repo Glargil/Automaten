@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Automaten
+namespace Automaten.Models
 {
     class Row
     {
@@ -12,12 +12,14 @@ namespace Automaten
         private int _price;
         private Queue<Item> _currentItem;
 
-        public Row() { }
+        public Row() 
+        
+        { }
 
         public Item EjectItem()
         {
-            // ? ? ?? 
-            _currentItem.Dequeue();
+            Item ejectedItem = _currentItem.Dequeue();
+            return ejectedItem;
         }
     }
 }
