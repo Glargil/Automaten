@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Automaten.Models
 {
-    class Item
+    public class Item
     {
         private string _name;
         private int _marketPrice;
