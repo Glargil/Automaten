@@ -13,7 +13,5 @@ namespace Automaten.Models
         private Panel _panel;
         private CoinBank _coinBank;
         private Drawer _drawer;
-
-
     }
 }
