@@ -25,7 +25,10 @@ namespace Automaten.Models
         ItemQueue.Enqueue(itemToAdd);
             Console.WriteLine(itemToAdd.Name + " added to row " + Slot);
         }
-
+        public int GetItemPrice()
+        {
+            return ItemQueue.Peek().Price;
+        }
         public Item EjectItem()
         {
             Item ejectedItem = ItemQueue.Dequeue();
