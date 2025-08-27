@@ -23,7 +23,8 @@ namespace Automaten.Models
         public void AddItem(Item itemToAdd)
         { 
         ItemQueue.Enqueue(itemToAdd);
-            Console.WriteLine(itemToAdd.Name + " added to row " + Slot);
+            // For debugging purposes
+            //Console.WriteLine(itemToAdd.Name + " added to row " + Slot);
         }
         public int GetItemPrice()
         {

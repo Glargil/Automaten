@@ -53,6 +53,11 @@
             return total;
         }
 
+        public int CalcChange(int price, int insertedCoins)
+        {
+            int change = insertedCoins - price;
+            return change;
+        }
 
     }
 }

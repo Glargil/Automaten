@@ -1,4 +1,8 @@
 ﻿using Automaten.Models;
+using Automaten.Repositories;
+using Automaten.Services;
+using System;
+using System.Collections.Generic;
 
 namespace Automaten
 {
@@ -6,84 +10,120 @@ namespace Automaten
     {
         static void Main(string[] args)
         {
+            // Create a vending machine with 5 rows (to match the 5 slots)
+            var vendingMachine = new VendingMachine(new Panel("", 0, 0), new CoinBank(), new Row[5]);
+            for (int i = 0; i < vendingMachine.Rows.Length; i++)
+            {
+                vendingMachine.Rows[i] = new Row();
+            }
 
-            // Stocks the vending machine with items
-            Item cola = new Item("Cola", 20, 25);
-            Item fanta = new Item("Fanta", 30, 35);
-            Item snickers = new Item("Snickers", 15, 20);
-            Item apple = new Item("Apple", 10, 15);
-            Item water = new Item("Water", 5, 10);
+            // Set up repository and service
+            var repository = new VendingMachineRepository(vendingMachine);
+            var service = new VendingMachineService(repository);
 
-            // Create a vending machine with 4 rows
-            VendingMachine vendingMachine1 = new VendingMachine(new Panel("", 0, 0), new CoinBank(), new Row[4]);
-            vendingMachine1.Rows[0].AddItem(cola);
-            vendingMachine1.Rows[0].AddItem(cola);
-            vendingMachine1.Rows[0].AddItem(cola);
-            vendingMachine1.Rows[1].AddItem(fanta);
-            vendingMachine1.Rows[1].AddItem(fanta);
-
+            // Initial refill
+            service.RefillAllRows();
+            Console.Clear();
             Console.WriteLine("Vending Machine Simulation");
             Console.WriteLine("--------------------------");
-            Console.WriteLine("Please enter the slot number of the item you wish to purchase.");
-            Console.WriteLine("Available slots:");
-            Console.WriteLine("0: Cola (25kr)");
-            Console.WriteLine("1: Fanta PRIME(35kr)");
-            Console.WriteLine("2: Snickers (20kr)");
-            Console.WriteLine("3: Apple (15kr)");
-            Console.WriteLine("4: Water (10kr)");
 
-            // Main application loop
-            int appRunning = 1;
-            while (appRunning == 1)
+            bool running = true;
+            while (running)
             {
-                // Get user input for slot selection
-                int userSelectedSlot = int.Parse(Console.ReadLine());
-                if (userSelectedSlot < 0 || userSelectedSlot > 4)
-                {
-                    Console.WriteLine("Invalid slot number. Please try again.");
-                }
-                else
-                {
-                    // Calculate total price of selected item ask to insert coins
-                    Console.WriteLine("you have selected slot " + userSelectedSlot);
-                    Console.WriteLine("The price of your selected item is " + vendingMachine1.Rows[userSelectedSlot].GetItemPrice() + "kr");
-                    Console.WriteLine("Please insert coins (accepted coins: 1kr, 2kr, 5kr, 10kr, 20kr). Type 'done' when finished.");
+                Console.WriteLine("\nMenu:");
+                Console.WriteLine("1. Buy an item");
+                Console.WriteLine("2. Refill all rows");
+                Console.WriteLine("0. Exit");
+                Console.Write("Select an option: ");
+                var menuInput = Console.ReadLine();
 
-                    // Loop to accept coins until the total inserted amount meets or exceeds the item price
-                    int totalInsertedAmount = 0;
-                    while (true)
-                    {
-                        string userInput = Console.ReadLine();
-                        if (userInput.ToLower() == "done")
+                switch (menuInput)
+                {
+                    case "1":
+                        Console.WriteLine("Available slots:");
+                        Console.WriteLine("0: Cola (25kr)");
+                        Console.WriteLine("1: Fanta (35kr)");
+                        Console.WriteLine("2: Snickers (20kr)");
+                        Console.WriteLine("3: Apple (15kr)");
+                        Console.WriteLine("4: Water (10kr)");
+                        Console.Write("Please enter the slot number of the item you wish to purchase: ");
+                        if (!int.TryParse(Console.ReadLine(), out int userSelectedSlot))
                         {
+                            Console.WriteLine("Invalid input. Please enter a number.");
                             break;
                         }
 
-                        // Validate and process inserted coin
-                        int insertedCoin;
-                        if (int.TryParse(userInput, out insertedCoin) && (insertedCoin == 1 || insertedCoin == 2 || insertedCoin == 5 || insertedCoin == 10 || insertedCoin == 20))
+                        // Get item price for the selected slot
+                        var vm = repository.GetVendingMachine();
+                        if (userSelectedSlot < 0 || userSelectedSlot >= vm.Rows.Length)
                         {
-                            // Calculates the total inserted amount and updates the panel and coin bank
-                            totalInsertedAmount += insertedCoin;
-                            vendingMachine1.Panel.InsertCoin(insertedCoin);
-                            vendingMachine1.CoinBank.AddCoin(insertedCoin);
-                            Console.WriteLine("Total inserted amount: " + totalInsertedAmount + "kr");
-                            if (totalInsertedAmount >= vendingMachine1.Rows[userSelectedSlot].GetItemPrice())
-                            {
+                            Console.WriteLine("Invalid slot number. Please try again.");
+                            break;
+                        }
+
+                        int itemPrice = vm.Rows[userSelectedSlot].GetItemPrice();
+                        Console.WriteLine($"You have selected slot {userSelectedSlot}.");
+                        Console.WriteLine($"The price of your selected item is {itemPrice}kr.");
+                        Console.WriteLine("Please insert coins (accepted coins: 1kr, 2kr, 5kr, 10kr, 20kr). Type 'done' when finished.");
+
+                        var insertedCoins = new List<int>();
+                        while (true)
+                        {
+                            string userInput = Console.ReadLine();
+                            if (userInput.ToLower() == "done")
                                 break;
+
+                            if (int.TryParse(userInput, out int insertedCoin) &&
+                                (insertedCoin == 1 || insertedCoin == 2 || insertedCoin == 5 || insertedCoin == 10 || insertedCoin == 20))
+                            {
+                                insertedCoins.Add(insertedCoin);
+                                int total = 0;
+                                foreach (var c in insertedCoins) total += c;
+                                Console.WriteLine($"Total inserted amount: {total}kr");
+                                if (total >= itemPrice)
+                                    break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid coin. Please insert a valid coin or type 'done' to finish.");
+                            }
+                        }
+
+                        // Try to purchase item via service
+                        if (service.TryPurchaseItem(userSelectedSlot, insertedCoins, out string message, out Dictionary<int, int> change))
+                        {
+                            Console.WriteLine(message);
+                            if (change.Count > 0)
+                            {
+                                Console.WriteLine("Change given:");
+                                foreach (var kvp in change)
+                                {
+                                    Console.WriteLine($"{kvp.Value} x {kvp.Key}kr");
+                                }
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Invalid coin. Please insert a valid coin or type 'done' to finish.");
+                            Console.WriteLine(message);
                         }
-                    }
+                        break;
 
+                    case "2":
+                        service.RefillAllRows();
+                        Console.WriteLine("All rows refilled.");
+                        break;
 
-                    appRunning = 0;
+                    case "0":
+                        running = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
                 }
             }
 
+            Console.WriteLine("Thank you for using the vending machine simulation!");
         }
     }
 }
