@@ -8,7 +8,12 @@ namespace Automaten.Models
 {
     public class CoinBank
     {
+        private List<Coins.Coin> _bankedCoins;
+
+        public List<Coins.Coin> BankedCoins { get; set; } = new List<Coins.Coin>();
+
         public CoinBank()
-        { }
+        {
+        }
     }
 }

@@ -3,7 +3,7 @@
 {
     public class Panel
     {
-        public List<Coins.Coins> InsertedCoins { get; set; } = new List<Coins.Coins>();
+        public List<Coins.Coin> InsertedCoins { get; set; } = new List<Coins.Coin>();
 
         public string InputRowSlot { get; set; }
 

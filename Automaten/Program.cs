@@ -8,7 +8,7 @@ namespace Automaten
         {
            Item cola = new Item("Cola", 20, 25);
            Item fanta = new Item("Fanta", 30, 35);
-            VendingMachine vendingMachine1 = new VendingMachine(1, new Panel(), new CoinBank(), new Drawer(), new Row[5]);
+            VendingMachine vendingMachine1 = new VendingMachine(1, new Panel(), new CoinBank(), new Row[5]);
             vendingMachine1.Rows[0].AddItem(cola);
             vendingMachine1.Rows[0].AddItem(cola);
             vendingMachine1.Rows[0].AddItem(cola);

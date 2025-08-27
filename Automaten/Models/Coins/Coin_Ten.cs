@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Automaten.Models.Coins
 {
-    public class Coin_Ten:Coins
+    public class Coin_Ten:Coin
     {
         public Coin_Ten()
         {
