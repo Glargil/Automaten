@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Automaten.Models
 {
-    class VendingMachine
+    public class VendingMachine
     {
         private int _id;
         private List<Row> _rows;
