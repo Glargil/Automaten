@@ -8,5 +8,7 @@ namespace Automaten
 {
     class VendingMachine
     {
+        private int _id;
+        private 
     }
 }
