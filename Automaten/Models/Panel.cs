@@ -10,6 +10,11 @@
         public int Change { get; set; }
         public int Profit { get; set; }
 
+        public Panel(List<Coins.Coin> insertedCoins, string inputRowSlot, int change, int profit)
+        { 
+        
+        }
+
         public int CalcTotal()
         {
             int total = 0;
