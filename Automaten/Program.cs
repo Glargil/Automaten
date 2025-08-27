@@ -1,4 +1,6 @@
-﻿namespace Automaten
+﻿using Automaten.Models;
+
+namespace Automaten
 {
     internal class Program
     {
