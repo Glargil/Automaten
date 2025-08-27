@@ -8,27 +8,23 @@ namespace Automaten.Models
 {
     public class VendingMachine
     {
-        private int _id;
-        private Row[] _rows;
-        private Panel _panel;
-        private CoinBank _coinBank;
+        private static int _id = 0;
 
         public int Id { get; set; }
         public Row[] Rows { get; set; }
         public Panel Panel { get; set; }
         public CoinBank CoinBank { get; set; }
 
-        public VendingMachine(int id, Panel panel, CoinBank coinBank, Row[] rows)
+        public VendingMachine(Panel panel, CoinBank coinBank, Row[] rows)
         {
-            _id = id;
-            _rows = rows;
+            _id = _id++;
             Rows = rows;
             for (int i = 0; i < Rows.Length; i++)
             {
                 Rows[i] = new Row();
             }
-            _panel = panel;
-            _coinBank = coinBank;
+            Panel = panel;
+            CoinBank = coinBank;
         }
 
     }

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Automaten.Models.Coins
 {
-    public class Coint_Five: Coin
+    public class Coin_Five: Coin
     {
-        public Coint_Five()
+        public Coin_Five()
         {
             this.Value = 5;
             this.Name = "5 KR";
         }
-        public Coint_Five(int value, string name)
+        public Coin_Five(int value, string name)
         {
             this.Value = value;
             this.Name = name;
