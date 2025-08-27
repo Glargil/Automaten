@@ -9,7 +9,7 @@ namespace Automaten.Models
 {
     public class Row
     {
-        private int _tempId = 0;
+        private static int _tempId = 0;
         private int _slot;
         private Queue<Item> _itemQueue;
 
