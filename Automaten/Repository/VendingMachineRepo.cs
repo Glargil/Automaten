@@ -1,34 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Automaten.Models.Coins;
+using Automaten.Models;
 
 namespace Automaten.Repository
 {
     public class VendingMachineRepo : IVendingMachineRepo
     {
-        // Define the available coin denominations (descending order for optimal change)
+        // Reference to the coin bank for this vending machine
+        private CoinBank _coinBank;
+
+        // Coin denominations in descending order
         private static readonly int[] CoinDenominations = { 20, 10, 5, 2, 1 };
+
+        // Constructor: requires a CoinBank so we can update it
+        public VendingMachineRepo(CoinBank coinBank)
+        {
+            _coinBank = coinBank;
+        }
+
         public void Refill()
         {
-
+            // Your refill logic here (not changed)
         }
-        
-public List<Coin> CalculateChange(int changeAmount)
+
+        // Calculates the coins to return as change for a given amount
+        public List<Coin> CalculateChange(int changeAmount)
         {
-            var result = new List<Coin>();
+            List<Coin> result = new List<Coin>();
             int remaining = changeAmount;
 
-            foreach (var coinValue in CoinDenominations)
+            for (int d = 0; d < CoinDenominations.Length; d++)
             {
+                int coinValue = CoinDenominations[d];
                 int count = remaining / coinValue;
                 if (count > 0)
                 {
                     for (int i = 0; i < count; i++)
                     {
-                        // Create a Coin object for each coin to be returned
                         Coin coin = CreateCoinByValue(coinValue);
                         if (coin != null)
                         {
@@ -38,19 +47,31 @@ public List<Coin> CalculateChange(int changeAmount)
                     remaining -= coinValue * count;
                 }
             }
-            // TESTING
-            foreach (var coin in result)
-            {
-                Console.WriteLine($"Denomination: {coin.Value}, Name: {coin.Name}");
-            }
-
             return result;
+        }
+
+        // Removes the coins in coinsToRemove from the coin bank
+        public void RemoveCoinsFromBank(List<Coin> coinsToRemove)
+        {
+            for (int i = 0; i < coinsToRemove.Count; i++)
+            {
+                Coin coinToRemove = coinsToRemove[i];
+                // Find the first coin in the bank with the same value
+                for (int j = 0; j < _coinBank.BankedCoins.Count; j++)
+                {
+                    Coin bankCoin = _coinBank.BankedCoins[j];
+                    if (bankCoin.Value == coinToRemove.Value)
+                    {
+                        _coinBank.BankedCoins.RemoveAt(j);
+                        break; // Remove only one matching coin per coinToRemove
+                    }
+                }
+            }
         }
 
         // Helper method to create Coin objects based on value
         private Coin CreateCoinByValue(int value)
         {
-            // Replace with your actual Coin subclasses if available
             switch (value)
             {
                 case 20: return new Coin_Twenty();
@@ -60,10 +81,6 @@ public List<Coin> CalculateChange(int changeAmount)
                 case 1: return new Coin_One();
                 default: return null;
             }
-        }
-        public void RemoveCoinsFromBank(List<Coin> coinsToRemove)
-        {
-
         }
     }
 }
