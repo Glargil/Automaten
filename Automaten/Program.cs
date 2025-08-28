@@ -1,4 +1,6 @@
 ﻿using Automaten.Models;
+using Automaten.Repository;
+using Automaten.Service;
 
 namespace Automaten
 {
@@ -6,6 +8,14 @@ namespace Automaten
     {
         static void Main(string[] args)
         {
+            // Initialize repositories
+            ICoinBankRepo coinBankRepo = new CoinBankRepo();
+            IPanelRepo panelRepo = new PanelRepo();
+            IRowRepo rowRepo = new RowRepo();
+            IVendingMachineRepo vendingMachineRepo = new VendingMachineRepo();
+
+            // Initialize vendingmachine service
+            VendingMachineService vendingMachineService = new VendingMachineService(vendingMachineRepo);
 
             // Stocks the vending machine with items
             Item cola = new Item("Cola", 20, 25);
