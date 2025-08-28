@@ -12,7 +12,9 @@ namespace Automaten.Repository
     {
         public List<Coin> InsertedCoins { get; set; } = new List<Coin>();
 
-
+        public PanelRepo()
+        {
+        }
         public void InsertCoin(int coin)
         {
 
