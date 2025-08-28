@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Automaten.Models.Coins;
 
 namespace Automaten.Repository
 {
-    internal interface IVendingMachineRepo
+    public interface IVendingMachineRepo
     {
         void Refill();
-        void CalculateChange();
-
+        List<Coin> CalculateChange(int changeAmount);
+        void RemoveCoinsFromBank(List<Coin> coinsToRemove);
     }
 }
