@@ -42,5 +42,35 @@ namespace Automaten.Repository
                 BankedCoins.Add(twentyKr);
             }
         }
+
+        //TEST ME
+        public void RemoveCoin(int coin)
+        {
+            if (coin == 1)
+            {
+                Coin_One oneKr = new Coin_One();
+                BankedCoins.Remove(oneKr);
+            }
+            else if (coin == 2)
+            {
+                Coin_Two twoKr = new Coin_Two();
+                BankedCoins.Remove(twoKr);
+            }
+            else if (coin == 5)
+            {
+                Coin_Five fiveKr = new Coin_Five();
+                BankedCoins.Remove(fiveKr);
+            }
+            else if (coin == 10)
+            {
+                Coin_Ten tenKr = new Coin_Ten();
+                BankedCoins.Remove(tenKr);
+            }
+            else if (coin == 20)
+            {
+                Coin_Twenty twentyKr = new Coin_Twenty();
+                BankedCoins.Remove(twentyKr);
+            }
+        }
     }
 }

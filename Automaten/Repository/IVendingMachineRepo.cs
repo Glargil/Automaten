@@ -8,5 +8,8 @@ namespace Automaten.Repository
 {
     internal interface IVendingMachineRepo
     {
+        void Refill();
+        void CalculateChange();
+
     }
 }

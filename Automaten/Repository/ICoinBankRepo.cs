@@ -9,5 +9,6 @@ namespace Automaten.Repository
     public interface ICoinBankRepo
     {
         void AddCoin(int coin);
+        void RemoveCoin(int coin);
     }
 }
