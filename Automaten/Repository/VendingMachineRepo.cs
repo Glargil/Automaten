@@ -48,6 +48,11 @@ namespace Automaten.Repository
             }
         }
 
+        public Item DispenseItem(Row selectedRow)
+        {
+            Item itemToDequeue = selectedRow.ItemQueue.Dequeue();
+            return itemToDequeue;
+        }
 
 
         // Calculates the coins to return as change for a given amount
