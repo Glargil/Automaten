@@ -7,6 +7,13 @@ namespace Automaten.Repository
 {
     public class VendingMachineRepo : IVendingMachineRepo
     {
+        // List to hold the coins in the coin bank
+        public List<Coin> BankedCoins { get; set; } = new List<Coin>();
+
+        // List to hold the coins inserted by the user
+        public List<Coin> InsertedCoins { get; set; } = new List<Coin>();
+
+
         // Reference to the coin bank for this vending machine
         private CoinBank _coinBank;
 
@@ -25,6 +32,11 @@ namespace Automaten.Repository
         public VendingMachineRepo()
         {
         }
+
+        // ###################################################
+        // ############# Vending Machine Methods #############
+        // ###################################################
+
 
         public void Refill()
         {
@@ -124,5 +136,169 @@ namespace Automaten.Repository
                 default: return null;
             }
         }
+
+        // ###############################################
+        // ########### End Vending Machine Methods #######
+        // ###############################################
+
+
+
+        // ###############################################
+        // ########### Coin Bank Methods #################
+        // ###############################################
+
+
+
+        public void AddCoin(int coin)
+        {
+            if (coin == 1)
+            {
+                Coin_One oneKr = new Coin_One();
+                BankedCoins.Add(oneKr);
+            }
+            else if (coin == 2)
+            {
+                Coin_Two twoKr = new Coin_Two();
+                BankedCoins.Add(twoKr);
+            }
+            else if (coin == 5)
+            {
+                Coin_Five fiveKr = new Coin_Five();
+                BankedCoins.Add(fiveKr);
+            }
+            else if (coin == 10)
+            {
+                Coin_Ten tenKr = new Coin_Ten();
+                BankedCoins.Add(tenKr);
+            }
+            else if (coin == 20)
+            {
+                Coin_Twenty twentyKr = new Coin_Twenty();
+                BankedCoins.Add(twentyKr);
+            }
+        }
+
+        public void RemoveCoin(int coin)
+        {
+            if (coin == 1)
+            {
+                Coin_One oneKr = new Coin_One();
+                BankedCoins.Remove(oneKr);
+            }
+            else if (coin == 2)
+            {
+                Coin_Two twoKr = new Coin_Two();
+                BankedCoins.Remove(twoKr);
+            }
+            else if (coin == 5)
+            {
+                Coin_Five fiveKr = new Coin_Five();
+                BankedCoins.Remove(fiveKr);
+            }
+            else if (coin == 10)
+            {
+                Coin_Ten tenKr = new Coin_Ten();
+                BankedCoins.Remove(tenKr);
+            }
+            else if (coin == 20)
+            {
+                Coin_Twenty twentyKr = new Coin_Twenty();
+                BankedCoins.Remove(twentyKr);
+            }
+        }
+
+        public void CoinBankReport()
+        {
+            foreach (Coin coin in BankedCoins)
+            {
+                Console.WriteLine("CoinBank contains " + coin.Name + " coins.");
+            }
+        }
+
+        // ###############################################
+        // ########### End Coin Bank Methods #############
+        // ###############################################
+
+
+        // ###############################################
+        // ############ Panel Methods ####################
+        // ###############################################
+
+        public void InsertCoin(int coin)
+        {
+
+            if (coin == 1)
+            {
+                Coin_One oneKr = new Coin_One();
+                InsertedCoins.Add(oneKr);
+            }
+            else if (coin == 2)
+            {
+                Coin_Two twoKr = new Coin_Two();
+                InsertedCoins.Add(twoKr);
+            }
+            else if (coin == 5)
+            {
+                Coin_Five fiveKr = new Coin_Five();
+                InsertedCoins.Add(fiveKr);
+            }
+            else if (coin == 10)
+            {
+                Coin_Ten tenKr = new Coin_Ten();
+                InsertedCoins.Add(tenKr);
+            }
+            else if (coin == 20)
+            {
+                Coin_Twenty twentyKr = new Coin_Twenty();
+                InsertedCoins.Add(twentyKr);
+            }
+
+        }
+        public int CalcTotal()
+        {
+            int total = 0;
+            foreach (var coin in InsertedCoins)
+            {
+                total += coin.Value;
+            }
+            return total;
+        }
+
+        // ###############################################
+        // ############ End Panel Methods ################
+        // ###############################################
+
+
+
+        // ###############################################
+        // ############ Row Methods ######################
+        // ###############################################
+
+        public void AddItem(Row row, Item itemToAdd)
+        {
+            row.ItemQueue.Enqueue(itemToAdd);
+            Console.WriteLine(itemToAdd.Name + " added to row " + row.Slot);
+        }
+
+        public int GetItemPrice(Row row)
+        {
+            return row.ItemQueue.Peek().Price;
+        }
+
+        public Item EjectItem(Row row)
+        {
+            return row.ItemQueue.Dequeue();
+        }
+
+        public string RowToString(Row row)
+        {
+            return "Row: " + row.Slot + " contains " + row.ItemQueue.Count + " items.";
+        }
+
+        // ###############################################
+        // ############ End Row Methods ##################
+        // ###############################################
+
+
     }
 }

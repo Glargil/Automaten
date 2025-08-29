@@ -9,31 +9,30 @@ namespace Automaten
     {
         static void Main(string[] args)
         {
-            //CoinBank coinBank = new CoinBank();
-
-            //VendingMachine vendingMachine = new VendingMachine(new Panel("", 0, 0), coinBank, new Row[4]);
 
             List<Coin> CoinsToRemove = new List<Coin>();
             CoinsToRemove.Add(new Coin_Twenty());
             CoinsToRemove.Add(new Coin_Ten());
+            CoinsToRemove.Add(new Coin_Five());
+
+            foreach(var coin in CoinsToRemove)
+            {
+                Console.WriteLine(coin.Name);
+            }
 
 
             // Initialize repositories
-            ICoinBankRepo coinBankRepo = new CoinBankRepo();
-            IPanelRepo panelRepo = new PanelRepo();
-            IRowRepo rowRepo = new RowRepo();
             IVendingMachineRepo vendingMachineRepo = new VendingMachineRepo();
 
             // Initialize vendingmachine service
             VendingMachineService vendingMachineService = new VendingMachineService(vendingMachineRepo);
-            CoinBankService coinBankService = new CoinBankService(coinBankRepo);
 
-            coinBankService.AddCoin(20);
-            coinBankService.AddCoin(10);
-            coinBankService.AddCoin(5);
-            coinBankService.AddCoin(2);
-            coinBankService.AddCoin(1);
-            
+            // Add coins to the coin bank
+            vendingMachineService.AddCoin(20);
+            vendingMachineService.AddCoin(10);
+            vendingMachineService.AddCoin(5);
+            vendingMachineService.AddCoin(2);
+            vendingMachineService.AddCoin(1);
 
 
             // Stocks the vending machine with items
@@ -44,81 +43,17 @@ namespace Automaten
             Item water = new Item("Water", 5, 10);
 
 
+            vendingMachineService.Refill();
+
+            vendingMachineService.CoinBankReport();
+
             Console.WriteLine("DEBUG");
-            coinBankService.CoinBankReport();
             vendingMachineService.CalculateChange(12);
             vendingMachineService.RemoveCoinsFromBank(CoinsToRemove);
 
-            //// Create a vending machine with 4 rows
-            //VendingMachine vendingMachine1 = new VendingMachine(new Panel("", 0, 0), new CoinBank(), new Row[4]);
-            //vendingMachine1.Rows[0].AddItem(cola);
-            //vendingMachine1.Rows[0].AddItem(cola);
-            //vendingMachine1.Rows[0].AddItem(cola);
-            //vendingMachine1.Rows[1].AddItem(fanta);
-            //vendingMachine1.Rows[1].AddItem(fanta);
-
-            //Console.WriteLine("Vending Machine Simulation");
-            //Console.WriteLine("--------------------------");
-            //Console.WriteLine("Please enter the slot number of the item you wish to purchase.");
-            //Console.WriteLine("Available slots:");
-            //Console.WriteLine("0: Cola (25kr)");
-            //Console.WriteLine("1: Fanta PRIME(35kr)");
-            //Console.WriteLine("2: Snickers (20kr)");
-            //Console.WriteLine("3: Apple (15kr)");
-            //Console.WriteLine("4: Water (10kr)");
-
-            //// Main application loop
-            //int appRunning = 1;
-            //while (appRunning == 1)
-            //{
-            //    // Get user input for slot selection
-            //    int userSelectedSlot = int.Parse(Console.ReadLine());
-            //    if (userSelectedSlot < 0 || userSelectedSlot > 4)
-            //    {
-            //        Console.WriteLine("Invalid slot number. Please try again.");
-            //    }
-            //    else
-            //    {
-            //        // Calculate total price of selected item ask to insert coins
-            //        Console.WriteLine("you have selected slot " + userSelectedSlot);
-            //        Console.WriteLine("The price of your selected item is " + vendingMachine1.Rows[userSelectedSlot].GetItemPrice() + "kr");
-            //        Console.WriteLine("Please insert coins (accepted coins: 1kr, 2kr, 5kr, 10kr, 20kr). Type 'done' when finished.");
-
-            //        // Loop to accept coins until the total inserted amount meets or exceeds the item price
-            //        int totalInsertedAmount = 0;
-            //        while (true)
-            //        {
-            //            string userInput = Console.ReadLine();
-            //            if (userInput.ToLower() == "done")
-            //            {
-            //                break;
-            //            }
-
-            //            // Validate and process inserted coin
-            //            int insertedCoin;
-            //            if (int.TryParse(userInput, out insertedCoin) && (insertedCoin == 1 || insertedCoin == 2 || insertedCoin == 5 || insertedCoin == 10 || insertedCoin == 20))
-            //            {
-            //                // Calculates the total inserted amount and updates the panel and coin bank
-            //                totalInsertedAmount += insertedCoin;
-            //                vendingMachine1.Panel.InsertCoin(insertedCoin);
-            //                vendingMachine1.CoinBank.AddCoin(insertedCoin);
-            //                Console.WriteLine("Total inserted amount: " + totalInsertedAmount + "kr");
-            //                if (totalInsertedAmount >= vendingMachine1.Rows[userSelectedSlot].GetItemPrice())
-            //                {
-            //                    break;
-            //                }
-            //            }
-            //            else
-            //            {
-            //                Console.WriteLine("Invalid coin. Please insert a valid coin or type 'done' to finish.");
-            //            }
-            //        }
-
-
-            //        appRunning = 0;
-            //    }
+            vendingMachineService.CoinBankReport();
         }
 
-        }
     }
+}
 

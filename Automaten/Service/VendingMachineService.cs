@@ -11,6 +11,8 @@ namespace Automaten.Service
 {
     public class VendingMachineService
     {
+
+        // Vending Machine Methods
         private IVendingMachineRepo _vendingMachineInterface;
         public VendingMachineService(IVendingMachineRepo vendingMachineInterface)
         {
@@ -31,6 +33,54 @@ namespace Automaten.Service
         public Item DispenseItem(Models.Row selectedRow)
         {
             return _vendingMachineInterface.DispenseItem(selectedRow);
+        }
+
+
+
+        // Coin Bank Methods
+        public void AddCoin(int coin)
+        {
+            _vendingMachineInterface.AddCoin(coin);
+        }
+        public void RemoveCoin(int coin)
+        {
+            _vendingMachineInterface.RemoveCoin(coin);
+        }
+        public void CoinBankReport()
+        {
+            _vendingMachineInterface.CoinBankReport();
+        }
+
+
+        // Panel Methods
+        public void InsertCoin(int coin)
+        {
+            _vendingMachineInterface.InsertCoin(coin);
+        }
+        public int CalcTotal()
+        {
+            return _vendingMachineInterface.CalcTotal();
+        }
+
+
+        // Row Methods
+        public void AddItem(Row row, Item itemToAdd)
+        {
+            _vendingMachineInterface.AddItem(row, itemToAdd);
+        }
+        public int GetItemPrice(Row row)
+        {
+            return _vendingMachineInterface.GetItemPrice(row);
+        }
+
+        public Item EjectItem(Row row)
+        {
+            return _vendingMachineInterface.EjectItem(row);
+        }
+
+        public string RowToString(Row row)
+        {
+            return _vendingMachineInterface.RowToString(row);
         }
     }
 }
