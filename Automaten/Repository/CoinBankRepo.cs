@@ -72,5 +72,13 @@ namespace Automaten.Repository
                 BankedCoins.Remove(twentyKr);
             }
         }
+
+        public void CoinBankReport()
+        {
+            foreach (Coin coin in BankedCoins)
+            {
+                Console.WriteLine("CoinBank contains " + coin.Name + " coins.");
+            }
+        }
     }
 }

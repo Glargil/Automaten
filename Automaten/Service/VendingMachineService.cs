@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Automaten.Models;
 using Automaten.Models.Coins;
 using Automaten.Repository;
 
@@ -26,6 +27,10 @@ namespace Automaten.Service
         public void RemoveCoinsFromBank(List<Coin> coinsToRemove)
         {
             _vendingMachineInterface.RemoveCoinsFromBank(coinsToRemove);
+        }
+        public Item DispenseItem(Models.Row selectedRow)
+        {
+            return _vendingMachineInterface.DispenseItem(selectedRow);
         }
     }
 }

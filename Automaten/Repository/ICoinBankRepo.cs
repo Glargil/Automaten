@@ -10,5 +10,6 @@ namespace Automaten.Repository
     {
         void AddCoin(int coin);
         void RemoveCoin(int coin);
+        void CoinBankReport();
     }
 }

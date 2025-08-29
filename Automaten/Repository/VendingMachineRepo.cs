@@ -16,12 +16,15 @@ namespace Automaten.Repository
         // Constructor: requires a CoinBank so we can update it
         private VendingMachine _vendingMachine;
 
-        public VendingMachineRepo(VendingMachine vendingMachine, CoinBank coinBank)
+        public VendingMachineRepo(VendingMachine vendingMachine, CoinBank coinBank, Panel panel, Row row)
         {
             _vendingMachine = vendingMachine;
             _coinBank = coinBank;
         }
 
+        public VendingMachineRepo()
+        {
+        }
 
         public void Refill()
         {
@@ -84,19 +87,27 @@ namespace Automaten.Repository
         // Removes the coins in coinsToRemove from the coin bank
         public void RemoveCoinsFromBank(List<Coin> coinsToRemove)
         {
-            for (int i = 0; i < coinsToRemove.Count; i++)
+
+            try
             {
-                Coin coinToRemove = coinsToRemove[i];
-                // Find the first coin in the bank with the same value
-                for (int j = 0; j < _coinBank.BankedCoins.Count; j++)
+                for (int i = 0; i < coinsToRemove.Count; i++)
                 {
-                    Coin bankCoin = _coinBank.BankedCoins[j];
-                    if (bankCoin.Value == coinToRemove.Value)
+                    Coin coinToRemove = coinsToRemove[i];
+                    // Find the first coin in the bank with the same value
+                    for (int j = 0; j < _coinBank.BankedCoins.Count; j++)
                     {
-                        _coinBank.BankedCoins.RemoveAt(j);
-                        break; // Remove only one matching coin per coinToRemove
+                        Coin bankCoin = _coinBank.BankedCoins[j];
+                        if (bankCoin.Value == coinToRemove.Value)
+                        {
+                            _coinBank.BankedCoins.RemoveAt(j);
+                            break; // Remove only one matching coin per coinToRemove
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error removing coins from bank: " + ex.Message);
             }
         }
 

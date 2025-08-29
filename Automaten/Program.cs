@@ -1,6 +1,7 @@
 ﻿using Automaten.Models;
 using Automaten.Repository;
 using Automaten.Service;
+using Automaten.Models.Coins;
 
 namespace Automaten
 {
@@ -8,6 +9,15 @@ namespace Automaten
     {
         static void Main(string[] args)
         {
+            //CoinBank coinBank = new CoinBank();
+
+            //VendingMachine vendingMachine = new VendingMachine(new Panel("", 0, 0), coinBank, new Row[4]);
+
+            List<Coin> CoinsToRemove = new List<Coin>();
+            CoinsToRemove.Add(new Coin_Twenty());
+            CoinsToRemove.Add(new Coin_Ten());
+
+
             // Initialize repositories
             ICoinBankRepo coinBankRepo = new CoinBankRepo();
             IPanelRepo panelRepo = new PanelRepo();
@@ -16,6 +26,15 @@ namespace Automaten
 
             // Initialize vendingmachine service
             VendingMachineService vendingMachineService = new VendingMachineService(vendingMachineRepo);
+            CoinBankService coinBankService = new CoinBankService(coinBankRepo);
+
+            coinBankService.AddCoin(20);
+            coinBankService.AddCoin(10);
+            coinBankService.AddCoin(5);
+            coinBankService.AddCoin(2);
+            coinBankService.AddCoin(1);
+            
+
 
             // Stocks the vending machine with items
             Item cola = new Item("Cola", 20, 25);
@@ -24,7 +43,11 @@ namespace Automaten
             Item apple = new Item("Apple", 10, 15);
             Item water = new Item("Water", 5, 10);
 
+
+            Console.WriteLine("DEBUG");
+            coinBankService.CoinBankReport();
             vendingMachineService.CalculateChange(12);
+            vendingMachineService.RemoveCoinsFromBank(CoinsToRemove);
 
             //// Create a vending machine with 4 rows
             //VendingMachine vendingMachine1 = new VendingMachine(new Panel("", 0, 0), new CoinBank(), new Row[4]);
@@ -94,7 +117,7 @@ namespace Automaten
 
             //        appRunning = 0;
             //    }
-            }
+        }
 
         }
     }
