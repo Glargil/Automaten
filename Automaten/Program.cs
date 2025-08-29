@@ -2,7 +2,6 @@
 using Automaten.Repository;
 using Automaten.Service;
 using Automaten.Models.Coins;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Numerics;
 
 namespace Automaten
@@ -71,67 +70,40 @@ namespace Automaten
             #endregion
 
             // Step 4: Start user interaction loop
-            bool continueUsing = true;
+            Console.Clear();
             Console.WriteLine("Welcome to the Vending Machine!");
             Console.WriteLine("--------------------------------");
-            Console.WriteLine("/nMenu:");
-            Console.WriteLine("1. Purchase Item");
-            Console.WriteLine("2. Exit");
+            Console.WriteLine("Please type the number of the Row that you would like to purchase from:");
+            Console.WriteLine("Row 0: Soda 20 DKK.-");
+            Console.WriteLine("Row 1: Chips 15 DKK.-");
+            Console.WriteLine("Row 2: Candy 25 DKK.-");
+            Console.WriteLine("Row 3: Water 30 DKK.-");
+            Console.WriteLine("Row 4: Juice 20 DKK.-");
+            Console.WriteLine("Row 5: Gum 50 DKK.-");
             Console.WriteLine("--------------------------------");
-            Console.WriteLine("Please select an option (1-2):");
-
             int appRunning = 1;
             while (appRunning == 1)
             {
-                // Get user input for slot selection
+                //User selects slot
                 int userSelectedSlot = int.Parse(Console.ReadLine());
-                if (userSelectedSlot < 0  userSelectedSlot > 4)
+                if (userSelectedSlot < 0 || userSelectedSlot > 5)
                 {
                     Console.WriteLine("Invalid slot number. Please try again.");
                 }
                 else
                 {
-                    // Calculate total price of selected item ask to insert coins
-                    Console.WriteLine("you have selected slot " + userSelectedSlot);
-                    Console.WriteLine("The price of your selected item is " + vendingMachineService.Rows[userSelectedSlot].GetItemPrice() + "kr");
-                    Console.WriteLine("Please insert coins (accepted coins: 1kr, 2kr, 5kr, 10kr, 20kr). Type 'done' when finished.");
-
-                    // Loop to accept coins until the total inserted amount meets or exceeds the item price
-                    int totalInsertedAmount = 0;
-                    while (true)
-                    {
-                        string userInput = Console.ReadLine();
-                        if (userInput.ToLower() == "done")
-                        {
-                            break;
-                        }
-
-                        // Validate and process inserted coin
-                        int insertedCoin;
-                        if (int.TryParse(userInput, out insertedCoin) && (insertedCoin == 1  insertedCoin == 2  insertedCoin == 5  insertedCoin == 10 || insertedCoin == 20))
-                        {
-                            // Calculates the total inserted amount and updates the panel and coin bank
-                            totalInsertedAmount += insertedCoin;
-                            vendingMachine1.Panel.InsertCoin(insertedCoin);
-                            vendingMachine1.CoinBank.AddCoin(insertedCoin);
-                            Console.WriteLine("Total inserted amount: " + totalInsertedAmount + "kr");
-                            if (totalInsertedAmount >= vendingMachine1.Rows[userSelectedSlot].GetItemPrice())
-                            {
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid coin. Please insert a valid coin or type 'done' to finish.");
-                        }
-                    }
-
-
-                    appRunning = 0;
+                    Console.WriteLine("Please insert " + vendingMachineService.GetItemPrice(userSelectedSlot) + " DKK.-");
                 }
+                Console.WriteLine("Please insert coins (accepted coins: 1, 2, 5, 10, 20). Type 'done' when finished.");
+                //User inserts coins until done
+
+                
+
+
+                appRunning = 0;
+            }
+        }
 
             }
         }
-    }
-}
 

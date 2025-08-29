@@ -68,7 +68,7 @@ namespace Automaten.Service
         {
             _vendingMachineInterface.AddItem(rowIndex, itemToAdd);
         }
-        public int GetItemPrice(Row row)
+        public int GetItemPrice(int row)
         {
             return _vendingMachineInterface.GetItemPrice(row);
         }

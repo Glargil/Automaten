@@ -304,9 +304,9 @@ namespace Automaten.Repository
             Console.WriteLine(itemToAdd.Name + " added to row " + Rows[rowIndex].Slot);
         }
 
-        public int GetItemPrice(Row row)
+        public int GetItemPrice(int rowIndex)
         {
-            return row.ItemQueue.Peek().Price;
+            return Rows[rowIndex].ItemQueue.Peek().Price;
         }
 
         public Item EjectItem(Row row)
