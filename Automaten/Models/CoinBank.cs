@@ -15,17 +15,5 @@ namespace Automaten.Models
         public CoinBank()
         { 
         }
-
-        
-
-
-
-        public void CoinBankReport()
-        {
-            //foreach (Coin coin in BankedCoins)
-            //{
-            //    Console.WriteLine ("CoinBank contains " + coin.Name + " coins.");
-            //}
-        }
     }
 }
