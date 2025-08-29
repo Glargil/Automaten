@@ -64,9 +64,9 @@ namespace Automaten.Service
 
 
         // Row Methods
-        public void AddItem(Row row, Item itemToAdd)
+        public void AddItem(int rowIndex, Item itemToAdd)
         {
-            _vendingMachineInterface.AddItem(row, itemToAdd);
+            _vendingMachineInterface.AddItem(rowIndex, itemToAdd);
         }
         public int GetItemPrice(Row row)
         {

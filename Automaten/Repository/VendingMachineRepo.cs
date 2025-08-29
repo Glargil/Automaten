@@ -16,13 +16,17 @@ namespace Automaten.Repository
         // Coin denominations in descending order
         private static readonly int[] CoinDenominations = { 20, 10, 5, 2, 1 };
 
-        // Constructor: requires a CoinBank so we can update it
-        private VendingMachine _vendingMachine;
+        // Array of rows in the vending machine
+        public Row[] Rows { get; set; } = new Row[5];
 
         public VendingMachineRepo()
         {
-            
+            for (int i = 0; i < Rows.Length; i++)
+            {
+                Rows[i] = new Row();
+            }
         }
+
 
         // ###################################################
         // ############# Vending Machine Methods #############
@@ -33,10 +37,10 @@ namespace Automaten.Repository
         {
             // Print all items in the machine prior to refill
             Console.WriteLine("Items in the machine prior to refill:");
-            for (int i = 0; i < _vendingMachine.Rows.Length; i++)
+            for (int i = 0; i < Rows.Length; i++)
             {
                 Console.Write($"Row {i + 1}: ");
-                foreach (var item in _vendingMachine.Rows[i].ItemQueue)
+                foreach (var item in Rows[i].ItemQueue)
                 {
                     Console.Write($"{item.Name} ");
                 }
@@ -54,12 +58,12 @@ namespace Automaten.Repository
             };
 
             // For each row, clear and refill with 5 items
-            for (int i = 0; i < _vendingMachine.Rows.Length; i++)
+            for (int i = 0; i < Rows.Length; i++)
             {
-                _vendingMachine.Rows[i].ItemQueue.Clear();
+                Rows[i].ItemQueue.Clear();
                 for (int j = 0; j < 5; j++)
                 {
-                    _vendingMachine.Rows[i].ItemQueue.Enqueue(
+                    Rows[i].ItemQueue.Enqueue(
                         new Item(items[i].Name, items[i].MarketPrice, items[i].Price)
                     );
                 }
@@ -67,10 +71,10 @@ namespace Automaten.Repository
 
             // Print all items in the machine post refill
             Console.WriteLine("Items in the machine after refill:");
-            for (int i = 0; i < _vendingMachine.Rows.Length; i++)
+            for (int i = 0; i < Rows.Length; i++)
             {
                 Console.Write($"Row {i + 1}: ");
-                foreach (var item in _vendingMachine.Rows[i].ItemQueue)
+                foreach (var item in Rows[i].ItemQueue)
                 {
                     Console.Write($"{item.Name} ");
                 }
@@ -289,10 +293,15 @@ namespace Automaten.Repository
         // ############ Row Methods ######################
         // ###############################################
 
-        public void AddItem(Row row, Item itemToAdd)
+        public void AddItem(int rowIndex, Item itemToAdd)
         {
-            row.ItemQueue.Enqueue(itemToAdd);
-            Console.WriteLine(itemToAdd.Name + " added to row " + row.Slot);
+            if (rowIndex < 0 || rowIndex >= Rows.Length)
+            {
+                Console.WriteLine("Invalid row index.");
+                return;
+            }
+            Rows[rowIndex].ItemQueue.Enqueue(itemToAdd);
+            Console.WriteLine(itemToAdd.Name + " added to row " + Rows[rowIndex].Slot);
         }
 
         public int GetItemPrice(Row row)
