@@ -14,15 +14,41 @@ namespace Automaten.Repository
         private static readonly int[] CoinDenominations = { 20, 10, 5, 2, 1 };
 
         // Constructor: requires a CoinBank so we can update it
-        public VendingMachineRepo(CoinBank coinBank)
+        private VendingMachine _vendingMachine;
+
+        public VendingMachineRepo(VendingMachine vendingMachine, CoinBank coinBank)
         {
+            _vendingMachine = vendingMachine;
             _coinBank = coinBank;
         }
 
+
         public void Refill()
         {
-            // Your refill logic here (not changed)
+            // Define the items for each row
+            Item[] items = new Item[]
+            {
+                new Item("Cola", 20, 25),
+                new Item("Fanta", 30, 35),
+                new Item("Snickers", 15, 20),
+                new Item("Apple", 10, 15),
+                new Item("Water", 5, 10)
+            };
+
+            // For each row, clear and refill with 5 items
+            for (int i = 0; i < _vendingMachine.Rows.Length; i++)
+            {
+                _vendingMachine.Rows[i].ItemQueue.Clear();
+                for (int j = 0; j < 5; j++)
+                {
+                    _vendingMachine.Rows[i].ItemQueue.Enqueue(
+                        new Item(items[i].Name, items[i].MarketPrice, items[i].Price)
+                    );
+                }
+            }
         }
+
+
 
         // Calculates the coins to return as change for a given amount
         public List<Coin> CalculateChange(int changeAmount)
