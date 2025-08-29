@@ -2,6 +2,8 @@
 using Automaten.Repository;
 using Automaten.Service;
 using Automaten.Models.Coins;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Numerics;
 
 namespace Automaten
 {
@@ -9,51 +11,48 @@ namespace Automaten
     {
         static void Main(string[] args)
         {
-
-            List<Coin> CoinsToRemove = new List<Coin>();
-            CoinsToRemove.Add(new Coin_Twenty());
-            CoinsToRemove.Add(new Coin_Ten());
-            CoinsToRemove.Add(new Coin_Five());
-
-            foreach(var coin in CoinsToRemove)
-            {
-                Console.WriteLine(coin.Name);
-            }
-
-
-            // Initialize repositories
+            // Step 1: Initialize repositories and services
             IVendingMachineRepo vendingMachineRepo = new VendingMachineRepo();
-
-            // Initialize vendingmachine service
             VendingMachineService vendingMachineService = new VendingMachineService(vendingMachineRepo);
 
-            // Add coins to the coin bank
+            // Step 2: Stock the vending machine with items (refill rows)
+            vendingMachineService.Refill();
+
+
+            // Step 3: Add coins to the coin bank
             vendingMachineService.AddCoin(20);
             vendingMachineService.AddCoin(10);
             vendingMachineService.AddCoin(5);
             vendingMachineService.AddCoin(2);
             vendingMachineService.AddCoin(1);
 
-
-            // Stocks the vending machine with items
-            Item cola = new Item("Cola", 20, 25);
-            Item fanta = new Item("Fanta", 30, 35);
-            Item snickers = new Item("Snickers", 15, 20);
-            Item apple = new Item("Apple", 10, 15);
-            Item water = new Item("Water", 5, 10);
-
-
-            vendingMachineService.Refill();
-
+            // Step 4: Show initial coin bank report
+            Console.WriteLine("Initial Coin Bank Report:");
             vendingMachineService.CoinBankReport();
 
-            Console.WriteLine("DEBUG");
-            vendingMachineService.CalculateChange(12);
+            // Step 5: Simulate removing some coins
+            List<Coin> CoinsToRemove = new List<Coin>
+                {
+                    new Coin_Twenty(),
+                    new Coin_Ten(),
+                    new Coin_Five()
+                };
+
+            Console.WriteLine("Removing coins:");
+            foreach (var coin in CoinsToRemove)
+            {
+                Console.WriteLine(coin.Name);
+            }
             vendingMachineService.RemoveCoinsFromBank(CoinsToRemove);
 
+            // Step 6: Simulate a purchase and change calculation
+            Console.WriteLine("Simulating purchase and change calculation:");
+            vendingMachineService.CalculateChange(12);
+
+            // Step 7: Show final coin bank report
+            Console.WriteLine("Final Coin Bank Report:");
             vendingMachineService.CoinBankReport();
         }
-
     }
 }
 

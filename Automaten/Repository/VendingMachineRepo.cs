@@ -13,24 +13,15 @@ namespace Automaten.Repository
         // List to hold the coins inserted by the user
         public List<Coin> InsertedCoins { get; set; } = new List<Coin>();
 
-
-        // Reference to the coin bank for this vending machine
-        private CoinBank _coinBank;
-
         // Coin denominations in descending order
         private static readonly int[] CoinDenominations = { 20, 10, 5, 2, 1 };
 
         // Constructor: requires a CoinBank so we can update it
         private VendingMachine _vendingMachine;
 
-        public VendingMachineRepo(VendingMachine vendingMachine, CoinBank coinBank, Panel panel, Row row)
-        {
-            _vendingMachine = vendingMachine;
-            _coinBank = coinBank;
-        }
-
         public VendingMachineRepo()
         {
+            
         }
 
         // ###################################################
@@ -40,6 +31,18 @@ namespace Automaten.Repository
 
         public void Refill()
         {
+            // Print all items in the machine prior to refill
+            Console.WriteLine("Items in the machine prior to refill:");
+            for (int i = 0; i < _vendingMachine.Rows.Length; i++)
+            {
+                Console.Write($"Row {i + 1}: ");
+                foreach (var item in _vendingMachine.Rows[i].ItemQueue)
+                {
+                    Console.Write($"{item.Name} ");
+                }
+                Console.WriteLine();
+            }
+
             // Define the items for each row
             Item[] items = new Item[]
             {
@@ -60,6 +63,18 @@ namespace Automaten.Repository
                         new Item(items[i].Name, items[i].MarketPrice, items[i].Price)
                     );
                 }
+            }
+
+            // Print all items in the machine post refill
+            Console.WriteLine("Items in the machine after refill:");
+            for (int i = 0; i < _vendingMachine.Rows.Length; i++)
+            {
+                Console.Write($"Row {i + 1}: ");
+                foreach (var item in _vendingMachine.Rows[i].ItemQueue)
+                {
+                    Console.Write($"{item.Name} ");
+                }
+                Console.WriteLine();
             }
         }
 
@@ -106,12 +121,12 @@ namespace Automaten.Repository
                 {
                     Coin coinToRemove = coinsToRemove[i];
                     // Find the first coin in the bank with the same value
-                    for (int j = 0; j < _coinBank.BankedCoins.Count; j++)
+                    for (int j = 0; j < BankedCoins.Count; j++)
                     {
-                        Coin bankCoin = _coinBank.BankedCoins[j];
+                        Coin bankCoin = BankedCoins[j];
                         if (bankCoin.Value == coinToRemove.Value)
                         {
-                            _coinBank.BankedCoins.RemoveAt(j);
+                            BankedCoins.RemoveAt(j);
                             break; // Remove only one matching coin per coinToRemove
                         }
                     }
