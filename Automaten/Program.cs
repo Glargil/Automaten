@@ -54,7 +54,7 @@ namespace Automaten
                 vendingMachineService.RowReport();
 
                 Console.WriteLine();
-                Console.WriteLine("Welcome to the Vending Machine!");
+                Console.WriteLine("Welcome to the Magnus&Egil Vending Machine! :D");
                 Console.WriteLine("--------------------------------");
                 Console.WriteLine("Please type the number of the Row that you would like to purchase from:");
                 Console.WriteLine("Row 0: Soda 20 DKK.-");
