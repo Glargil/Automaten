@@ -1,4 +1,4 @@
-# Vending Machine (.NET 8, C# 12)
+# Vending Machine (.NET 8, C# 12) Egil & Magnus
 
 This project is a console-based vending machine simulation written in C# 12 for .NET 8. It demonstrates object-oriented design, repository/service patterns, and robust exception handling for a simple, interactive vending machine.
 
