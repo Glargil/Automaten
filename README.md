@@ -50,6 +50,14 @@ Below is the class diagram for the project:
 
 ---
 
+## Sequence Diagram
+
+Below is the sequence diagram for the project:
+
+![Vending Machine Sequence Diagram](SequenceDiagram.png)
+
+---
+
 ## License
 
 This project is licensed under the MIT License.
