@@ -228,6 +228,8 @@ namespace Automaten.Repository
 
         public void CoinBankReport()
         {
+            Console.WriteLine("CoinBank report:");
+            Console.WriteLine();
             foreach (Coin coin in BankedCoins)
             {
                 Console.WriteLine("CoinBank contains " + coin.Name + " coins.");
@@ -309,14 +311,29 @@ namespace Automaten.Repository
             return Rows[rowIndex].ItemQueue.Peek().Price;
         }
 
-        public Item EjectItem(Row row)
+        public Item EjectItem(int rowIndex)
         {
-            return row.ItemQueue.Dequeue();
+            return Rows[rowIndex].ItemQueue.Dequeue();
         }
 
         public string RowToString(Row row)
         {
             return "Row: " + row.Slot + " contains " + row.ItemQueue.Count + " items.";
+        }
+
+        public Row GetRow(int rowIndex)
+        {
+            return Rows[rowIndex];
+        }
+
+        public void RowReport()
+        {
+            Console.WriteLine("Row Report:");
+            Console.WriteLine();
+            foreach (Row row in Rows)
+            {
+                Console.WriteLine("Row " + row.Slot + " Contains " + row.ItemQueue.Count + " items");
+            }
         }
 
         // ###############################################

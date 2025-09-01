@@ -36,7 +36,9 @@ namespace Automaten.Repository
         // Row Methods
         void AddItem(int rowIndex, Item itemToAdd);
         int GetItemPrice(int rowIndex);
-        Item EjectItem(Row row);
+        Item EjectItem(int rowIndex);
         string RowToString(Row row);
-    }
+        public Row GetRow(int rowIndex);
+        public void RowReport();
+}
 }

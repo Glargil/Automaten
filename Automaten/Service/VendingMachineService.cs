@@ -73,14 +73,25 @@ namespace Automaten.Service
             return _vendingMachineInterface.GetItemPrice(row);
         }
 
-        public Item EjectItem(Row row)
+        public Row GetRow(int rowIndex)
         {
-            return _vendingMachineInterface.EjectItem(row);
+            return _vendingMachineInterface.GetRow(rowIndex);
+        }
+
+        public Item EjectItem(int rowIndex)
+        {
+            return _vendingMachineInterface.EjectItem(rowIndex);
         }
 
         public string RowToString(Row row)
         {
             return _vendingMachineInterface.RowToString(row);
         }
+
+        public void RowReport()
+        {
+            _vendingMachineInterface.RowReport();
+        }
+
     }
 }
