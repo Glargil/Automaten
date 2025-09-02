@@ -48,135 +48,145 @@ namespace Automaten
                     Console.WriteLine();
                     vendingMachineService.RowReport();
 
-                    Console.WriteLine();
-                    Console.WriteLine("Welcome to the Magnus&Egil Vending Machine! :D");
-                    Console.WriteLine("--------------------------------");
-                    Console.WriteLine("Please type the number of the Row that you would like to purchase from:");
-                    Console.WriteLine("Row 0: Soda 20 DKK.-");
-                    Console.WriteLine("Row 1: Chips 15 DKK.-");
-                    Console.WriteLine("Row 2: Candy 25 DKK.-");
-                    Console.WriteLine("Row 3: Water 30 DKK.-");
-                    Console.WriteLine("Row 4: Juice 20 DKK.-");
-                    Console.WriteLine("--------------------------------");
-                    Console.WriteLine("Type '9' to exit the application.");
-                    Console.WriteLine("--------------------------------");
-
-                    //User selects slot
-                    string userInput = Console.ReadLine();
-                    if (!int.TryParse(userInput, out int userSelectedSlot))
+                    Console.WriteLine("Are you a customer or an administrator? Type 'customer' or 'admin'.");
+                    string userType = Console.ReadLine();
+                    if (userType == "customer")
                     {
-                        Console.WriteLine("Invalid input. Please enter a number.");
-                        Thread.Sleep(2000);
-                        continue;
-                    }
+                        Console.WriteLine();
+                        Console.WriteLine("Welcome to the Magnus&Egil Vending Machine! :D");
+                        Console.WriteLine("--------------------------------");
+                        Console.WriteLine("Please type the number of the Row that you would like to purchase from:");
+                        Console.WriteLine("Row 0: Soda 20 DKK.-");
+                        Console.WriteLine("Row 1: Chips 15 DKK.-");
+                        Console.WriteLine("Row 2: Candy 25 DKK.-");
+                        Console.WriteLine("Row 3: Water 30 DKK.-");
+                        Console.WriteLine("Row 4: Juice 20 DKK.-");
+                        Console.WriteLine("--------------------------------");
+                        Console.WriteLine("Type '9' to exit the application.");
+                        Console.WriteLine("--------------------------------");
 
-                    if (userSelectedSlot == 9)
-                    {
-                        appRunning = 0;
-                        Console.WriteLine("Exiting application. Goodbye!");
-                        break;
-                    }
-
-                    if (userSelectedSlot < 0 || userSelectedSlot >= 5)
-                    {
-                        Console.WriteLine("Invalid slot number. Please try again.");
-                        Thread.Sleep(2000);
-                        continue;
-                    }
-
-                    Row selectedRow;
-                    try
-                    {
-                        selectedRow = vendingMachineService.GetRow(userSelectedSlot);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error accessing row: {ex.Message}");
-                        Thread.Sleep(2000);
-                        continue;
-                    }
-
-                    if (selectedRow.ItemQueue.Count < 1)
-                    {
-                        Console.WriteLine("Selected row is empty. Please choose another row.");
-                        Thread.Sleep(2000);
-                        continue;
-                    }
-
-                    int itemPrice;
-                    try
-                    {
-                        itemPrice = vendingMachineService.GetItemPrice(userSelectedSlot);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error getting item price: {ex.Message}");
-                        Thread.Sleep(2000);
-                        continue;
-                    }
-
-                    Console.WriteLine("Please insert " + itemPrice + " DKK.-");
-
-                    int[] acceptedCoins = { 1, 2, 5, 10, 20 };
-                    int insertedCoins = 0;
-                    List<int> userCoins = new List<int>();
-
-                    while (insertedCoins < itemPrice)
-                    {
-                        Console.WriteLine($"Amount remaining: {itemPrice - insertedCoins} DKK. Insert coin (accepted: 1, 2, 5, 10, 20):");
-                        string input = Console.ReadLine();
-                        if (int.TryParse(input, out int coinValue) && acceptedCoins.Contains(coinValue))
+                        //User selects slot
+                        string userInput = Console.ReadLine();
+                        if (!int.TryParse(userInput, out int userSelectedSlot))
                         {
-                            insertedCoins += coinValue;
-                            userCoins.Add(coinValue);
-                            Console.WriteLine($"Inserted {coinValue} DKK.");
+                            Console.WriteLine("Invalid input. Please enter a number.");
+                            Thread.Sleep(2000);
+                            continue;
                         }
-                        else
+
+                        if (userSelectedSlot == 9)
                         {
-                            Console.WriteLine("Invalid coin. Accepted coins are: 1, 2, 5, 10, 20.");
+                            appRunning = 0;
+                            Console.WriteLine("Exiting application. Goodbye!");
+                            break;
                         }
-                    }
-                    int change = insertedCoins - itemPrice;
 
-                    foreach (var coinValue in userCoins)
-                    {
-                        vendingMachineService.AddCoin(coinValue);
-                    }
+                        if (userSelectedSlot < 0 || userSelectedSlot >= 5)
+                        {
+                            Console.WriteLine("Invalid slot number. Please try again.");
+                            Thread.Sleep(2000);
+                            continue;
+                        }
 
-                    if (change > 0)
-                    {
-                        List<Coin> changeCoins;
+                        Row selectedRow;
                         try
                         {
-                            changeCoins = vendingMachineService.CalculateChange(change);
+                            selectedRow = vendingMachineService.GetRow(userSelectedSlot);
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Error calculating change: {ex.Message}");
-                            changeCoins = new List<Coin>();
+                            Console.WriteLine($"Error accessing row: {ex.Message}");
+                            Thread.Sleep(2000);
+                            continue;
                         }
 
-                        Console.WriteLine("CoinBank total before change has been removed: ");
-                        vendingMachineService.CoinBankReport();
+                        if (selectedRow.ItemQueue.Count < 1)
+                        {
+                            Console.WriteLine("Selected row is empty. Please choose another row.");
+                            Thread.Sleep(2000);
+                            continue;
+                        }
 
+                        int itemPrice;
                         try
                         {
-                            vendingMachineService.RemoveCoinsFromBank(changeCoins);
+                            itemPrice = vendingMachineService.GetItemPrice(userSelectedSlot);
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Error removing coins from bank: {ex.Message}");
+                            Console.WriteLine($"Error getting item price: {ex.Message}");
+                            Thread.Sleep(2000);
+                            continue;
                         }
 
-                        Console.WriteLine("CoinBank total after change has been removed: ");
-                        vendingMachineService.CoinBankReport();
+                        Console.WriteLine("Please insert " + itemPrice + " DKK.-");
 
-                        if (changeCoins.Count > 0)
+                        int[] acceptedCoins = { 1, 2, 5, 10, 20 };
+                        int insertedCoins = 0;
+                        List<int> userCoins = new List<int>();
+
+                        while (insertedCoins < itemPrice)
                         {
-                            Console.WriteLine("Your change:");
-                            foreach (var coin in changeCoins)
+                            Console.WriteLine($"Amount remaining: {itemPrice - insertedCoins} DKK. Insert coin (accepted: 1, 2, 5, 10, 20):");
+                            string input = Console.ReadLine();
+                            if (int.TryParse(input, out int coinValue) && acceptedCoins.Contains(coinValue))
                             {
-                                Console.WriteLine($"{coin.Value} DKK");
+                                insertedCoins += coinValue;
+                                userCoins.Add(coinValue);
+                                Console.WriteLine($"Inserted {coinValue} DKK.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid coin. Accepted coins are: 1, 2, 5, 10, 20.");
+                            }
+                        }
+                        int change = insertedCoins - itemPrice;
+
+                        foreach (var coinValue in userCoins)
+                        {
+                            vendingMachineService.AddCoin(coinValue);
+                        }
+
+                        if (change > 0)
+                        {
+                            List<Coin> changeCoins;
+                            try
+                            {
+                                changeCoins = vendingMachineService.CalculateChange(change);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Error calculating change: {ex.Message}");
+                                changeCoins = new List<Coin>();
+                            }
+
+                            Console.WriteLine("CoinBank total before change has been removed: ");
+                            vendingMachineService.CoinBankReport();
+
+                            try
+                            {
+                                vendingMachineService.RemoveCoinsFromBank(changeCoins);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Error removing coins from bank: {ex.Message}");
+                            }
+
+                            Console.WriteLine("CoinBank total after change has been removed: ");
+                            vendingMachineService.CoinBankReport();
+
+                            if (changeCoins.Count > 0)
+                            {
+                                Console.WriteLine("Your change:");
+                                foreach (var coin in changeCoins)
+                                {
+                                    Console.WriteLine($"{coin.Value} DKK");
+                                }
+                            }
+                            else
+                            {
+                                vendingMachineService.CoinBankReport();
+                                Console.WriteLine("No change to dispense.");
                             }
                         }
                         else
@@ -184,28 +194,23 @@ namespace Automaten
                             vendingMachineService.CoinBankReport();
                             Console.WriteLine("No change to dispense.");
                         }
-                    }
-                    else
-                    {
-                        vendingMachineService.CoinBankReport();
-                        Console.WriteLine("No change to dispense.");
-                    }
 
-                    try
-                    {
-                        vendingMachineService.EjectItem(userSelectedSlot);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error dispensing item: {ex.Message}");
-                    }
+                        try
+                        {
+                            vendingMachineService.EjectItem(userSelectedSlot);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error dispensing item: {ex.Message}");
+                        }
 
-                    vendingMachineService.RowReport();
-                    Console.WriteLine();
-                    Console.WriteLine("Thank you for your purchase!");
-                    Console.WriteLine("Returning to main menu in 5 seconds...");
-                    Thread.Sleep(5000);
-                    Console.Clear();
+                        vendingMachineService.RowReport();
+                        Console.WriteLine();
+                        Console.WriteLine("Thank you for your purchase!");
+                        Console.WriteLine("Returning to main menu in 5 seconds...");
+                        Thread.Sleep(5000);
+                        Console.Clear();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -215,5 +220,6 @@ namespace Automaten
                 }
             } while (appRunning == 1);
         }
+        }
     }
-}
+
