@@ -20,7 +20,7 @@ namespace Automaten.Service
         }
         public void Refill()
         {
-
+            _vendingMachineInterface.Refill();
         }
         public List<Coin> CalculateChange(int changeAmount)
         {
