@@ -14,18 +14,20 @@ namespace Automaten
             VendingMachineService vendingMachineService = new VendingMachineService(vendingMachineRepo);
 
             #region Add items to the Vending Machine
-            vendingMachineService.AddItem(0, new Item("Soda", 15, 20));
-            vendingMachineService.AddItem(0, new Item("Soda", 15, 20));
-            vendingMachineService.AddItem(0, new Item("Soda", 15, 20));
-            vendingMachineService.AddItem(0, new Item("Soda", 15, 20));
-            vendingMachineService.AddItem(0, new Item("Soda", 15, 20));
-            vendingMachineService.AddItem(1, new Item("Chips", 10, 15));
-            vendingMachineService.AddItem(2, new Item("Candy", 7, 25));
-            vendingMachineService.AddItem(2, new Item("Candy", 7, 25));
-            vendingMachineService.AddItem(3, new Item("Water", 5, 30));
-            vendingMachineService.AddItem(3, new Item("Water", 5, 30));
-            vendingMachineService.AddItem(3, new Item("Water", 5, 30));
-            vendingMachineService.AddItem(3, new Item("Water", 5, 30));
+            vendingMachineService.AddItem(0, new Item("Cola", 20, 25));
+            vendingMachineService.AddItem(0, new Item("Cola", 20, 25));
+            vendingMachineService.AddItem(0, new Item("Cola", 20, 25));
+            vendingMachineService.AddItem(0, new Item("Cola", 20, 25));
+            vendingMachineService.AddItem(0, new Item("Cola", 20, 25));
+            vendingMachineService.AddItem(1, new Item("Fanta", 30, 35));
+            vendingMachineService.AddItem(1, new Item("Fanta", 30, 35));
+            vendingMachineService.AddItem(1, new Item("Fanta", 30, 35));
+            vendingMachineService.AddItem(2, new Item("Snickers", 15, 20));
+            vendingMachineService.AddItem(2, new Item("Snickers", 15, 20));
+            vendingMachineService.AddItem(2, new Item("Apple", 10, 15));
+            vendingMachineService.AddItem(3, new Item("Water", 5, 10));
+            vendingMachineService.AddItem(3, new Item("Water", 5, 10));
+            vendingMachineService.AddItem(3, new Item("Water", 5, 10));
             #endregion
 
             #region Add coins to the coin bank
@@ -57,8 +59,8 @@ namespace Automaten
                         if (adminCommand == "refill")
                         {
                             vendingMachineService.Refill();
-                            Console.WriteLine("Machine refilled. Returning to main menu in 5 seconds...");
                             vendingMachineService.RowReport();
+                            Console.WriteLine("Machine refilled. Returning to main menu in 5 seconds...");
                             Thread.Sleep(5000);
                             Console.Clear();
                         }
@@ -76,17 +78,17 @@ namespace Automaten
                         }
 
                     }
-                    else
+                    else if (userType == "customer")
                     {
                         Console.WriteLine();
                         Console.WriteLine("Welcome to the Magnus&Egil Vending Machine! :D");
                         Console.WriteLine("--------------------------------");
                         Console.WriteLine("Please type the number of the Row that you would like to purchase from:");
-                        Console.WriteLine("Row 0: Soda 20 DKK.-");
-                        Console.WriteLine("Row 1: Chips 15 DKK.-");
-                        Console.WriteLine("Row 2: Candy 25 DKK.-");
-                        Console.WriteLine("Row 3: Water 30 DKK.-");
-                        Console.WriteLine("Row 4: Juice 20 DKK.-");
+                        Console.WriteLine("Row 0: Cola 25 DKK.-");
+                        Console.WriteLine("Row 1: Fanta 35 DKK.-");
+                        Console.WriteLine("Row 2: Snickers 20 DKK.-");
+                        Console.WriteLine("Row 3: Apple 15 DKK.-");
+                        Console.WriteLine("Row 4: Water 10 DKK.-");
                         Console.WriteLine("--------------------------------");
                         Console.WriteLine("Type '9' to exit the application.");
                         Console.WriteLine("--------------------------------");
@@ -236,6 +238,12 @@ namespace Automaten
                         Console.WriteLine("Returning to main menu in 5 seconds...");
                         Thread.Sleep(5000);
                         Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid user type. Please type 'customer' or 'admin'.");
+                        Thread.Sleep(2000);
+                        continue;
                     }
                 }
                 catch (Exception ex)
