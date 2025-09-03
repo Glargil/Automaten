@@ -50,7 +50,33 @@ namespace Automaten
 
                     Console.WriteLine("Are you a customer or an administrator? Type 'customer' or 'admin'.");
                     string userType = Console.ReadLine();
-                    if (userType == "customer")
+                    if (userType == "admin")
+                    {
+                        Console.WriteLine("Welcome, Administrator! Type 'refill' to refill the machine or 'exit' to return to main menu.");
+                        string adminCommand = Console.ReadLine();
+                        if (adminCommand == "refill")
+                        {
+                            vendingMachineService.Refill();
+                            Console.WriteLine("Machine refilled. Returning to main menu in 5 seconds...");
+                            vendingMachineService.RowReport();
+                            Thread.Sleep(5000);
+                            Console.Clear();
+                        }
+                        else if (adminCommand == "exit")
+                        {
+                            Console.WriteLine("Returning to main menu...");
+                            Thread.Sleep(2000);
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid command. Returning to main menu in 5 seconds...");
+                            Thread.Sleep(5000);
+                            Console.Clear();
+                        }
+
+                    }
+                    else
                     {
                         Console.WriteLine();
                         Console.WriteLine("Welcome to the Magnus&Egil Vending Machine! :D");
