@@ -5,20 +5,48 @@ using Automaten.Models;
 
 namespace Automaten.Repository
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Automaten.Repository.IVendingMachineRepo" />
     public class VendingMachineRepo : IVendingMachineRepo
     {
         // List to hold the coins in the coin bank
+        /// <summary>
+        /// Gets or sets the banked coins.
+        /// </summary>
+        /// <value>
+        /// The banked coins.
+        /// </value>
         public List<Coin> BankedCoins { get; set; } = new List<Coin>();
 
         // List to hold the coins inserted by the user
+        /// <summary>
+        /// Gets or sets the inserted coins.
+        /// </summary>
+        /// <value>
+        /// The inserted coins.
+        /// </value>
         public List<Coin> InsertedCoins { get; set; } = new List<Coin>();
 
         // Coin denominations in descending order
+        /// <summary>
+        /// The coin denominations
+        /// </summary>
         private static readonly int[] CoinDenominations = { 20, 10, 5, 2, 1 };
 
         // Array of rows in the vending machine
+        /// <summary>
+        /// Gets or sets the rows.
+        /// </summary>
+        /// <value>
+        /// The rows.
+        /// </value>
         public Row[] Rows { get; set; } = new Row[5];
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VendingMachineRepo"/> class.
+        /// </summary>
         public VendingMachineRepo()
         {
             for (int i = 0; i < Rows.Length; i++)
@@ -33,6 +61,9 @@ namespace Automaten.Repository
         // ###################################################
 
 
+        /// <summary>
+        /// Refills this instance.
+        /// </summary>
         public void Refill()
         {
             // Print all items in the machine prior to refill
@@ -82,6 +113,11 @@ namespace Automaten.Repository
             }
         }
 
+        /// <summary>
+        /// Dispenses the item.
+        /// </summary>
+        /// <param name="selectedRow">The selected row.</param>
+        /// <returns></returns>
         public Item DispenseItem(Row selectedRow)
         {
             Item itemToDequeue = selectedRow.ItemQueue.Dequeue();
@@ -90,6 +126,11 @@ namespace Automaten.Repository
 
 
         // Calculates the coins to return as change for a given amount
+        /// <summary>
+        /// Calculates the change.
+        /// </summary>
+        /// <param name="changeAmount">The change amount.</param>
+        /// <returns></returns>
         public List<Coin> CalculateChange(int changeAmount)
         {
             List<Coin> result = new List<Coin>();
@@ -116,6 +157,10 @@ namespace Automaten.Repository
         }
 
         // Removes the coins in coinsToRemove from the coin bank
+        /// <summary>
+        /// Removes the coins from bank.
+        /// </summary>
+        /// <param name="coinsToRemove">The coins to remove.</param>
         public void RemoveCoinsFromBank(List<Coin> coinsToRemove)
         {
 
@@ -143,6 +188,11 @@ namespace Automaten.Repository
         }
 
         // Helper method to create Coin objects based on value
+        /// <summary>
+        /// Creates the coin by value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         private Coin CreateCoinByValue(int value)
         {
             switch (value)
@@ -168,6 +218,10 @@ namespace Automaten.Repository
 
 
 
+        /// <summary>
+        /// Adds the coin.
+        /// </summary>
+        /// <param name="coin">The coin.</param>
         public void AddCoin(int coin)
         {
             if (coin == 1)
@@ -197,6 +251,10 @@ namespace Automaten.Repository
             }
         }
 
+        /// <summary>
+        /// Removes the coin.
+        /// </summary>
+        /// <param name="coin">The coin.</param>
         public void RemoveCoin(int coin)
         {
             if (coin == 1)
@@ -226,6 +284,9 @@ namespace Automaten.Repository
             }
         }
 
+        /// <summary>
+        /// Coins the bank report.
+        /// </summary>
         public void CoinBankReport()
         {
             Console.WriteLine("CoinBank report:");
@@ -245,6 +306,10 @@ namespace Automaten.Repository
         // ############ Panel Methods ####################
         // ###############################################
 
+        /// <summary>
+        /// Inserts the coin.
+        /// </summary>
+        /// <param name="coin">The coin.</param>
         public void InsertCoin(int coin)
         {
 
@@ -275,6 +340,10 @@ namespace Automaten.Repository
             }
 
         }
+        /// <summary>
+        /// Calculates the total.
+        /// </summary>
+        /// <returns></returns>
         public int CalcTotal()
         {
             int total = 0;
@@ -295,6 +364,11 @@ namespace Automaten.Repository
         // ############ Row Methods ######################
         // ###############################################
 
+        /// <summary>
+        /// Adds the item.
+        /// </summary>
+        /// <param name="rowIndex">Index of the row.</param>
+        /// <param name="itemToAdd">The item to add.</param>
         public void AddItem(int rowIndex, Item itemToAdd)
         {
             if (rowIndex < 0 || rowIndex >= Rows.Length)
@@ -306,26 +380,49 @@ namespace Automaten.Repository
             Console.WriteLine(itemToAdd.Name + " added to row " + Rows[rowIndex].Slot);
         }
 
+        /// <summary>
+        /// Gets the item price.
+        /// </summary>
+        /// <param name="rowIndex">Index of the row.</param>
+        /// <returns></returns>
         public int GetItemPrice(int rowIndex)
         {
             return Rows[rowIndex].ItemQueue.Peek().Price;
         }
 
+        /// <summary>
+        /// Ejects the item.
+        /// </summary>
+        /// <param name="rowIndex">Index of the row.</param>
+        /// <returns></returns>
         public Item EjectItem(int rowIndex)
         {
             return Rows[rowIndex].ItemQueue.Dequeue();
         }
 
+        /// <summary>
+        /// Rows to string.
+        /// </summary>
+        /// <param name="row">The row.</param>
+        /// <returns></returns>
         public string RowToString(Row row)
         {
             return "Row: " + row.Slot + " contains " + row.ItemQueue.Count + " items.";
         }
 
+        /// <summary>
+        /// Gets the row.
+        /// </summary>
+        /// <param name="rowIndex">Index of the row.</param>
+        /// <returns></returns>
         public Row GetRow(int rowIndex)
         {
             return Rows[rowIndex];
         }
 
+        /// <summary>
+        /// Rows the report.
+        /// </summary>
         public void RowReport()
         {
             Console.WriteLine("Row Report:");
