@@ -28,6 +28,7 @@ namespace Automaten
             vendingMachineService.AddItem(3, new Item("Water", 5, 10));
             vendingMachineService.AddItem(3, new Item("Water", 5, 10));
             vendingMachineService.AddItem(3, new Item("Water", 5, 10));
+
             #endregion
 
             #region Add coins to the coin bank

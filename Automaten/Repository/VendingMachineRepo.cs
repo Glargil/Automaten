@@ -71,7 +71,7 @@ namespace Automaten.Repository
             for (int i = 0; i < Rows.Length; i++)
             {
                 Console.Write($"Row {i + 1}: ");
-                foreach (var item in Rows[i].ItemQueue)
+                foreach (var item in Rows[i].ItemQueue) 
                 {
                     Console.Write($"{item.Name} ");
                 }
@@ -133,13 +133,22 @@ namespace Automaten.Repository
         /// <returns></returns>
         public List<Coin> CalculateChange(int changeAmount)
         {
+            //List to hold the int changeAmount as a list of Coin objects
             List<Coin> result = new List<Coin>();
+
+            //int containing the remaining amount to be converted to coins
             int remaining = changeAmount;
 
+            //Iterate over each coin denomination starting with the highest value coin
             for (int d = 0; d < CoinDenominations.Length; d++)
             {
+                // Get the coin value for the current denomination
                 int coinValue = CoinDenominations[d];
+
+                // Calculate how many coins of this denomination can fit into the remaining amount
                 int count = remaining / coinValue;
+
+                // If at least one coin of this denomination can fit, add that many coins to the result list
                 if (count > 0)
                 {
                     for (int i = 0; i < count; i++)
