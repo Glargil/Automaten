@@ -159,6 +159,7 @@ namespace Automaten.Repository
                             result.Add(coin);
                         }
                     }
+                    // Subtract the total value of the added coins from the remaining amount
                     remaining -= coinValue * count;
                 }
             }

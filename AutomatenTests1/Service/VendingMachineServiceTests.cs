@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Automaten.Repository;
 using Automaten.Models;
 using Automaten.Models.Coins;
+using System.Collections;
 
 namespace Automaten.Service.Tests
 {
@@ -30,24 +31,48 @@ namespace Automaten.Service.Tests
         vendingMachineService.AddCoin(2);
         vendingMachineService.AddCoin(5);
         vendingMachineService.AddCoin(10);
+            #endregion
         }
 
         //Annotation
         [TestMethod()]
-        public void CalculateChangeSetUpListOfCoins(int changeAmount)
+        public void CalculateChangeSetUpListOfCoins()
         {
-            List<Coin>
-            //Act
+            //Arrange
+            #region initializing services, coins and expected list
+            IVendingMachineRepo vendingMachineRepo = new VendingMachineRepo();
+            VendingMachineService vendingMachineService = new VendingMachineService(vendingMachineRepo);
+            Coin one = new Coin_One();
+            Coin two = new Coin_Two();
+            Coin five = new Coin_Five();
+            Coin ten = new Coin_Ten();
+            Coin twenty = new Coin_Twenty();
+            List<Coin> expected = new List<Coin>() { twenty, five, two, one };
 
+            #endregion
+
+            //Act 28
+            List<Coin>actualCoins = vendingMachineService.CalculateChange(28);
 
             //Assert
-            Assert.Fail();
+            CollectionAssert.AreEqual(expected, actualCoins, new CoinComparer());
         }
 
         [TestMethod()]
         public void RemoveCoinTest()
         {
             Assert.Fail();
+        }
+
+        //Helper class to compare two lists of coins
+        public class CoinComparer : IComparer
+        {
+            public int Compare(object x, object y)
+            {
+                var p1 = (Coin)x;
+                var p2 = (Coin)y;
+                return string.Compare(p1.Name, p2.Name, StringComparison.Ordinal);
+            }
         }
     }
 }
