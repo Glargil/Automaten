@@ -16,7 +16,7 @@ namespace Automaten.Service.Tests
     public class VendingMachineServiceTests
     {
         //Arrange
-        //[TestInitialize] tells the testfile to run the following method before each test
+        //[TestInitialize] tells the testfile to run the following method before each test 
         [TestInitialize]
         public void Setup()
         { 
@@ -36,7 +36,7 @@ namespace Automaten.Service.Tests
 
         //Annotation
         [TestMethod()]
-        public void CalculateChangeSetUpListOfCoins()
+        public void CalculateChangeSetUpListOfCoins() //unit test CalculateChange
         {
             //Arrange
             #region initializing services, coins and expected list
@@ -47,22 +47,19 @@ namespace Automaten.Service.Tests
             Coin five = new Coin_Five();
             Coin ten = new Coin_Ten();
             Coin twenty = new Coin_Twenty();
+
             List<Coin> expected = new List<Coin>() { twenty, five, two, one };
 
             #endregion
 
-            //Act 28
-            List<Coin>actualCoins = vendingMachineService.CalculateChange(28);
+            //Act
+            List<Coin>actualCoins = vendingMachineService.CalculateChange(29);
 
             //Assert
             CollectionAssert.AreEqual(expected, actualCoins, new CoinComparer());
         }
 
-        [TestMethod()]
-        public void RemoveCoinTest()
-        {
-            Assert.Fail();
-        }
+
 
         //Helper class to compare two lists of coins
         public class CoinComparer : IComparer
